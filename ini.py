@@ -31,13 +31,14 @@ from PIL import Image
 # print("Frame Index: {0}".format(frameIndex))
 # cropImage.show()
 class SubUVImage:
-    def __init__(self, horizontal = 0, vertical = 0, image_path = "", out_directory = ""):
+    def __init__(self, horizontal = 0, vertical = 0, image_path = "", temp_path = "", out_directory = ""):
         self._horizontal = horizontal
         self._vertical = vertical
         self._image = self._getImage(image_path)
+        self._temp_path = temp_path
         self._out_directory = out_directory
         self._frameSize = self._getframeSize(self._image.size)
-
+        self._texture_name = os.path.basename(text_path)
     def _getImage(self, image_path):
         try:
             return Image.open(image_path)
@@ -53,31 +54,35 @@ class SubUVImage:
             print(error)
 
     def _getFrameList(self):
-        frame_list = os.listdir(self._out_directory)
-        frame_list.remove(".DS_Store")
-        return frame_list
+        frame_list = os.listdir(self._temp_path)
+        return frame_list.remove(".DS_Store") if ".DS_Store" in frame_list else frame_list
+
+    def _sortByNum(self, imgName = ""):
+        baseName = imgName.partition(".")
+        alpha, num = baseName[0].split("_")
+        return int(num)
 
     def convertInToSubUV(self):
         frame_index_w = 0
         frame_index_h = 0
-        frame_list = self._getFrameList()
+        frame_list = sorted(self._getFrameList(), key=self._sortByNum)
         frame_count = len(frame_list)
         frames_per_line = math.floor(math.sqrt(frame_count))
-        frame_img = self._getImage("{0}/{1}".format(self._out_directory, frame_list[0]))
+        frame_img = self._getImage("{0}/{1}".format(self._temp_path, frame_list[0]))
         frame_img_size = frame_img.size
-        background_img_size = list(map(lambda x: x * frames_per_line, frame_img_size))
-        background_img = Image.new('RGBA', background_img_size, (255, 255, 255, 255))
-
+        background_img_size = frames_per_line * frame_img_size[0], math.ceil(frame_count/frames_per_line) * frame_img_size[1]
+        background_img = Image.new('RGB', background_img_size, (0, 0, 0, 0))
         for frame_name in frame_list:
-            frame_img = self._getImage("{0}/{1}".format(self._out_directory, frame_name))
+            frame_img = self._getImage("{0}/{1}".format(self._temp_path, frame_name))
             background_img.paste(frame_img, (frame_index_w * frame_img_size[0], frame_index_h * frame_img_size[1]))
             frame_index_w += 1
             if frame_index_w == frames_per_line:
                 frame_index_h += 1
                 frame_index_w = 0
-        background_img.save('out.png')
+        background_img.save("{0}/{1}".format(self._out_directory, self._texture_name))
 
     def reverseConvertSubUV(self):
+        counter = 1
         left = 0
         top = 0
         right = self._frameSize[0]
@@ -90,12 +95,22 @@ class SubUVImage:
                 if i >= 2:
                     left = right
                     right = self._frameSize[0] * i
-                if i % 2 != 0:
+                if counter % 2 != 0:
                     cropImage = self._image.crop((left, top, right, bottom))
-                    cropImage.save("test/test{0}{1}.jpg".format(j, i))
+                    cropImage.save("{0}/temp_{1}.tga".format(self._temp_path, counter))
+                counter += 1
             left = 0
             right = self._frameSize[0]
 
-test = SubUVImage(horizontal= 5, vertical= 2, image_path = "test.jpeg", out_directory = "./test")
+text_path = r"D:\Demnichenko\Tasks\LiS\Texture Optimize\TX_GermanExpressionistMovie_10x14_A.TGA"
+out_path = r"D:\Demnichenko\Tasks\LiS\Texture Optimize\out"
+temp_path = r"D:\Demnichenko\Tasks\LiS\Texture Optimize\temp"
+horizontal_count = 10
+vertical_count = 14
+test = SubUVImage(horizontal= horizontal_count,
+                  vertical= vertical_count,
+                  image_path = text_path,
+                  temp_path = temp_path,
+                  out_directory = out_path)
 test.reverseConvertSubUV()
 test.convertInToSubUV()
