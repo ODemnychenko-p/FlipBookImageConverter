@@ -2,3 +2,5 @@
 .idea
 .gitignore
 /test
+__pycache__/
+flipbook/__pycache__/
