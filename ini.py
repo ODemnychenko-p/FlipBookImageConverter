@@ -1,113 +1,119 @@
-import math
-import os
-import time
-from frames_lib import Frames
-from flipbook_converter_lib import FlipbookConverter
-from PIL import Image
+import sys
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 
+from UI import flipbook_UI_IOS
+from lib import Frames, FlipbookConverter
 
-# class SubUVImage:
-#     def __init__(self, horizontal = 0, vertical = 0, image_path = "", temp_path = "", out_directory = ""):
-#         self._horizontal = horizontal
-#         self._vertical = vertical
-#         self._image = self._getImage(image_path)
-#         self._temp_path = temp_path
-#         self._out_directory = out_directory
-#         self._frameSize = self._getframeSize(self._image.size)
-#         self._texture_name = os.path.basename(text_path)
-#     def _getImage(self, image_path):
-#         try:
-#             return Image.open(image_path)
-#         except FileNotFoundError as error:
-#             print(error)
-#         except FileExistsError as error:
-#             print(error)
-#
-#     def _getframeSize(self, img_size):
-#         try:
-#             return img_size[0]/self._horizontal, img_size[1]/self._vertical
-#         except ZeroDivisionError as error:
-#             print(error)
-#
-#     def _getFrameList(self):
-#         frame_list = os.listdir(self._temp_path)
-#         return frame_list.remove(".DS_Store") if ".DS_Store" in frame_list else frame_list
-#
-#     def _sortByNum(self, imgName = ""):
-#         baseName = imgName.partition(".")
-#         alpha, num = baseName[0].split("_")
-#         return int(num)
-#
-#     def convertInToSubUV(self):
-#         frame_index_w = 0
-#         frame_index_h = 0
-#         frame_list = sorted(self._getFrameList(), key=self._sortByNum)
-#         frame_count = len(frame_list)
-#         frames_per_line = math.floor(math.sqrt(frame_count))
-#         frame_img = self._getImage("{0}/{1}".format(self._temp_path, frame_list[0]))
-#         frame_img_size = frame_img.size
-#         background_img_size = frames_per_line * frame_img_size[0], math.ceil(frame_count/frames_per_line) * frame_img_size[1]
-#         background_img = Image.new('RGB', background_img_size, (0, 0, 0, 0))
-#         for frame_name in frame_list:
-#             frame_img = self._getImage("{0}/{1}".format(self._temp_path, frame_name))
-#             background_img.paste(frame_img, (frame_index_w * frame_img_size[0], frame_index_h * frame_img_size[1]))
-#             frame_index_w += 1
-#             if frame_index_w == frames_per_line:
-#                 frame_index_h += 1
-#                 frame_index_w = 0
-#         background_img.save("{0}/{1}".format(self._out_directory, self._texture_name))
-#
-#     def reverseConvertSubUV(self):
-#         counter = 1
-#         left = 0
-#         top = 0
-#         right = self._frameSize[0]
-#         bottom = self._frameSize[1]
-#         for j in range(1, self._vertical + 1):
-#             if j >= 2:
-#                 top = bottom
-#                 bottom = self._frameSize[1] * j
-#             for i in range(1, self._horizontal + 1):
-#                 if i >= 2:
-#                     left = right
-#                     right = self._frameSize[0] * i
-#                 if counter % 2 != 0:
-#                     cropImage = self._image.crop((left, top, right, bottom))
-#                     cropImage.save("{0}/temp_{1}.tga".format(self._temp_path, counter))
-#                 counter += 1
-#             left = 0
-#             right = self._frameSize[0]
+class Flipbook(flipbook_UI_IOS.Ui_MainWindow, QMainWindow):
+    def __init__(self):
+        super(Flipbook, self).__init__()
+        self.setupUi(self)
 
-# text_path = r"D:\Demnichenko\Tasks\LiS\Texture Optimize\TX_GermanExpressionistMovie_10x14_A.TGA"
-# out_path = r"D:\Demnichenko\Tasks\LiS\Texture Optimize\out"
-# temp_path = r"D:\Demnichenko\Tasks\LiS\Texture Optimize\temp"
-# horizontal_count = 10
-# vertical_count = 14
-# test = SubUVImage(horizontal= horizontal_count,
-#                   vertical= vertical_count,
-#                   image_path = text_path,
-#                   temp_path = temp_path,
-#                   out_directory = out_path)
-# test.reverseConvertSubUV()
-# test.convertInToSubUV()
-def getImage(image_path):
-    try:
-        return Image.open(image_path)
-    except FileNotFoundError as error:
-        print(error)
-    except FileExistsError as error:
-        print(error)
+        self.setFocus()
+        self.comboBox.addItems(("TGA", "PNG", "JPG", "JPEG"))
+        self.frames = Frames()
+        self.flipbook = FlipbookConverter()
+        self.sl_frame.setMaximum(0)
+        self.sb_range_vertical.setMaximum(1)
+        self.sb_range_horizontal.setMaximum(1)
+        self.btn_path.clicked.connect(lambda: self.click_btn_path())
+        self.btn_out_path.clicked.connect(lambda: self.click_btn_outpath())
+        self.sb_vertical_line.valueChanged.connect(lambda: self.changed_sb_frames_count())
+        self.sb_horizontal_line.valueChanged.connect(lambda: self.changed_sb_frames_count())
+        self.sl_frame.valueChanged.connect(lambda: self.changed_sl_frame())
+        self.btn_save.clicked.connect(lambda: self.click_btn_save())
+        self.btn_saveall.clicked.connect(lambda: self.click_btn_saveall())
+
+    def click_btn_outpath(self):
+        path = QFileDialog.getExistingDirectory(self, "Out Directory", "")
+        if path:
+            self.fld_out_path.setText(path)
+        else:
+            print("Output directory is not selected!")
+
+    def click_btn_save(self):
+        if self.frames.framesList:
+            r1 = self.sb_range_horizontal.value()
+            r2 = self.sb_range_vertical.value()
+            if self.fld_out_path.text():
+                if r1 == r2 or r1 <= r2:
+                    self.flipbook.save(r1, r2, self.fld_out_path.text(), self.comboBox.currentText())
+                else:
+                    print("Selected range is incorrect!")
+            else:
+                print("Please, select the output directory!")
+        else:
+            print("Frames list is empty!")
+
+    def click_btn_saveall(self):
+        if self.frames.framesList:
+            if self.fld_out_path.text():
+                self.flipbook.saveAll(self.fld_out_path.text(), self.comboBox.currentText())
+            else:
+                print("Please, select the output directory!")
+        else:
+            print("Frames list is empty!")
+
+    def click_btn_path(self):
+        path, ext = QFileDialog.getOpenFileName(self, "Select Image", "", 'Images(*.png *.jpg *.jpeg *.tga *.psd)')
+        if path:
+            self.fld_path.setText(path)
+            if self.flipbook.getImage(path):
+                del(self.frames.framesList)
+                self.sb_vertical_line.setValue(1)
+                self.sb_horizontal_line.setValue(1)
+                self.sl_frame.setMaximum(0)
+                self.l_t_name.setText(self.flipbook.imgName)
+                self.l_t_format.setText(self.flipbook.imgFormat)
+                self.l_t_mode.setText(self.flipbook.imgMode)
+                self.l_t_size_mb.setText(self.flipbook.imgSizeMb)
+                self.l_t_size_px.setText("{0} X {1}".format(self.flipbook.imgSizePX[0], self.flipbook.imgSizePX[1]))
+                self.label.setText(str(self.sl_frame.value()))
+                self.label_2.setText("0")
+                self.label_3.setText("{0} X {1}".format(self.flipbook.imgSizePX[0], self.flipbook.imgSizePX[1]))
+                self.set_preview_img()
+            else:
+                self.statusbar.showMessage("", 5000)
+        else:
+            print("Image is not selected! Please, select an image!")
+
+    def changed_sl_frame(self):
+        if self.sl_frame.value() > 0:
+            if self.frames.framesList:
+                self.set_preview_img(self.frames.framesList[self.sl_frame.value()-1])
+                self.label_3.setText("{0} X {1}".format(
+                    self.frames.framesList[self.sl_frame.value()-1].width,
+                                               self.frames.framesList[self.sl_frame.value() - 1].height))
+            else:
+                print("Frames list is empty!")
+        else:
+            self.label_3.setText("{0} X {1}".format(self.flipbook.imgSizePX[0], self.flipbook.imgSizePX[1]))
+            self.set_preview_img()
+
+    def changed_sb_frames_count(self):
+        if self.flipbook.sourceImg:
+            del(self.frames.framesList)
+            self.frames.framesCountY = self.sb_horizontal_line.value()
+            self.frames.framesCountX = self.sb_vertical_line.value()
+            self.frames.frameSizeX, self.frames.frameSizeY = self.flipbook.imgSizePX
+            self.flipbook.reverseConvertSubUV()
+            self.sl_frame.setMaximum(len(self.frames.framesList))
+            self.sb_range_horizontal.setMaximum(len(self.frames.framesList))
+            self.sb_range_vertical.setMaximum(len(self.frames.framesList))
+            self.label_2.setText(str(len(self.frames.framesList)))
+        else:
+            print("Image is not selected! Please, select an image!")
+
+    def set_preview_img(self, img = 0):
+        data, size = self.flipbook.getImgData(img)
+        qim = QImage(data, size[0], size[1], QImage.Format_ARGB32)
+        pix = QPixmap.fromImage(qim)
+        self.l_preview_image.setPixmap(pix)
 
 if __name__ == "__main__":
-    img = getImage("/Users/aleksandr/PycharmProjects/FlipBookImageConverter/test/images.jpeg")
-    imgSizeX, imgSizeY = img.size
-    frames = Frames()
-    frames.framesCountX = 4
-    frames.framesCountY = 4
-    frames.frameSizeX = imgSizeX/frames.framesCountX
-    frames.frameSizeY = imgSizeY/frames.framesCountY
-    print(frames.frameSizeX)
-    print(frames.frameSizeX)
-    flipbook = FlipbookConverter()
-    flipbook.reverseConvertSubUV((frames.frameSizeX, frames.frameSizeY), frames.framesCountX, frames.framesCountY, img)
-    flipbook.convertInToSubUV()
+    qapp = QApplication(sys.argv)
+    flipbook = Flipbook()
+    flipbook.show()
+    qapp.exec_()
+
