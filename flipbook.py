@@ -1,15 +1,18 @@
 import sys
+import os
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-
-from UI import flipbook_UI_IOS
 from lib import Frames, FlipbookConverter
 
-class Flipbook(flipbook_UI_IOS.Ui_MainWindow, QMainWindow):
+if os.name == 'posix':
+    from UI import flipbook_UI_IOS
+elif os.name == 'nt':
+    from UI import flipbook_UI_WINDOWS
+
+class Flipbook(flipbook_UI_WINDOWS.Ui_MainWindow, QMainWindow):
     def __init__(self):
         super(Flipbook, self).__init__()
         self.setupUi(self)
-
         self.setFocus()
         self.comboBox.addItems(("TGA", "PNG", "JPG", "JPEG"))
         self.frames = Frames()
