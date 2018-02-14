@@ -5,11 +5,11 @@ from PyQt5.QtGui import *
 from lib import Frames, FlipbookConverter
 
 if os.name == 'posix':
-    from UI import flipbook_UI_IOS
+    from UI import flipbook_UI_IOS as UI
 elif os.name == 'nt':
-    from UI import flipbook_UI_WINDOWS
+    from UI import flipbook_UI_WINDOWS as UI
 
-class Flipbook(flipbook_UI_WINDOWS.Ui_MainWindow, QMainWindow):
+class Flipbook(UI.Ui_MainWindow, QMainWindow):
     def __init__(self):
         super(Flipbook, self).__init__()
         self.setupUi(self)
