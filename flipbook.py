@@ -105,6 +105,8 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
             self.sb_range_horizontal.setMaximum(len(self.frames.framesList))
             self.sb_range_vertical.setMaximum(len(self.frames.framesList))
             self.label_2.setText(str(len(self.frames.framesList)))
+            if self.sl_frame.value() != 0:
+                self.set_preview_img(self.frames.framesList[self.sl_frame.value()-1])
         else:
             print("Image is not selected! Please, select an image!")
 
