@@ -1,7 +1,5 @@
-
 from PIL import Image
 import os
-import math
 
 class Singleton(type):
 
