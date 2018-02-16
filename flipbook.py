@@ -97,9 +97,9 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
     def changed_sb_frames_count(self):
         if self.flipbook.sourceImg:
             del(self.frames.framesList)
-            self.frames.framesCountY = self.sb_horizontal_line.value()
             self.frames.framesCountX = self.sb_vertical_line.value()
-            self.frames.frameSizeX, self.frames.frameSizeY = self.flipbook.imgSizePX
+            self.frames.framesCountY = self.sb_horizontal_line.value()
+            self.frames.frameSizeX, self.frames.frameSizeY = self.flipbook.imageSizeCompensation()
             self.flipbook.reverseConvertSubUV()
             self.sl_frame.setMaximum(len(self.frames.framesList))
             self.sb_range_horizontal.setMaximum(len(self.frames.framesList))

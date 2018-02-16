@@ -1,5 +1,7 @@
+
 from PIL import Image
 import os
+import math
 
 class Singleton(type):
 
@@ -26,7 +28,9 @@ class Frames(metaclass=Singleton):
 
     @frameSizeX.setter
     def frameSizeX(self, value):
-        self._frameSizeX = round(value / self.framesCountX)
+        # self._frameSizeX = round(value / self.framesCountX)
+        self._frameSizeX = value / self.framesCountX
+        print(self._frameSizeX)
 
     @property
     def frameSizeY(self):
@@ -34,7 +38,9 @@ class Frames(metaclass=Singleton):
 
     @frameSizeY.setter
     def frameSizeY(self, value):
-        self._frameSizeY = round(value / self.framesCountY)
+        # self._frameSizeY = round(value / self.framesCountY)
+        self._frameSizeY = value / self.framesCountY
+        print(self._frameSizeY)
 
     @property
     def framesList(self):
@@ -140,11 +146,24 @@ class FlipbookConverter(metaclass=Singleton):
         img = img.convert("RGBA")
         return img.tobytes("raw", "RGBA"), img.size
 
+    def imageSizeCompensation(self):
+        kx = 1 - (self.imgSizePX[0] / self._frames.framesCountX)%1
+        print("kx: {0}".format(kx))
+        ky = 1 - (self.imgSizePX[1] / self._frames.framesCountY)%1
+        print("ky: {0}".format(ky))
+        k = kx * self._frames.framesCountX, ky * self._frames.framesCountY
+        print("k: {0}".format(k))
+        new_size = int(k[0] + self.imgSizePX[0]), int(k[1] + self.imgSizePX[1])
+        self.sourceImg = self.sourceImg.resize(new_size, Image.ANTIALIAS)
+        print("New source image size: {0}".format(str(self.sourceImg.size)))
+        return self.sourceImg.size
+
     def reverseConvertSubUV(self):
         left = 0
         top = 0
         right = self._frames.frameSizeX
         bottom = self._frames.frameSizeY
+        print("right = {0}\n bottom = {1}".format(type(right), type(bottom)))
         for j in range(1, self._frames.framesCountY + 1):
             if j >= 2:
                 top = bottom
