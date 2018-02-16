@@ -20,13 +20,27 @@ class Frames(metaclass=Singleton):
         self._frameSizeX = 1
         self._frameSizeY = 1
 
+    def __len__(self):
+        """Get frames length"""
+        return len(self._all)
+
+    def __getitem__(self, key):
+        """Get a frame by index"""
+        if isinstance(key, int):
+            return self._all[key]
+        raise TypeError('Cannot get key {0}'.format(key))
+
+    def __del__(self):
+        """Clear frames list"""
+        self._all.clear()
+        print("Frames is deleted!")
+
     @property
     def frameSizeX(self):
         return self._frameSizeX
 
     @frameSizeX.setter
     def frameSizeX(self, value):
-        # self._frameSizeX = round(value / self.framesCountX)
         self._frameSizeX = value / self.framesCountX
         print(self._frameSizeX)
 
@@ -36,7 +50,6 @@ class Frames(metaclass=Singleton):
 
     @frameSizeY.setter
     def frameSizeY(self, value):
-        # self._frameSizeY = round(value / self.framesCountY)
         self._frameSizeY = value / self.framesCountY
         print(self._frameSizeY)
 
@@ -51,12 +64,6 @@ class Frames(metaclass=Singleton):
         self._all.append(value)
         print("Frame({0}): {1} was added!".format(len(self._all), value))
 
-    @framesList.deleter
-    def framesList(self):
-        """Clear list of frames"""
-        self._all.clear()
-        print("Frames is deleted!")
-
     @property
     def framesCountX(self):
         """Get horizontal frame count"""
@@ -65,7 +72,7 @@ class Frames(metaclass=Singleton):
     @framesCountX.setter
     def framesCountX(self, value):
         """Set horizontal frame count"""
-        self._framesCountX = abs(self._int(value))
+        self._framesCountX = value
         print("Frames count X: {0}".format(self._framesCountX))
 
     @property
@@ -76,16 +83,8 @@ class Frames(metaclass=Singleton):
     @framesCountY.setter
     def framesCountY(self, value):
         """Set vertical frame count"""
-        self._framesCountY =  abs(self._int(value))
+        self._framesCountY =  value
         print("Frames count Y: {0}".format(self._framesCountY))
-
-    def _int(self, value):
-        """Check, if number consist of a letter return 0, else return value"""
-        try:
-            return int(value)
-        except ValueError:
-            print("The number must not be consist of a letter!")
-            return 0
 
 class FlipbookConverter(metaclass=Singleton):
     def __init__(self):
@@ -98,16 +97,16 @@ class FlipbookConverter(metaclass=Singleton):
         self.imgSizeMb = ""
 
     def save(self, r1, r2, path, ext):
-        if self._frames.framesList:
+        if len(self._frames):
             for i in range(r1-1, r2):
-                img = self._frames.framesList[i]
+                img = self._frames[i]
                 img.save("{0}/frame_{1}.{2}".format(path, i+1, ext))
                 print("frame_{0} was saved".format(i+1))
 
     def saveAll(self, path, ext):
-        if self._frames.framesList:
-            for i in range(0, len(self._frames.framesList)):
-                img = self._frames.framesList[i]
+        if len(self._frames):
+            for i in range(0, len(self._frames)):
+                img = self._frames[i]
                 img.save("{0}/frame_{1}.{2}".format(path, i+1, ext))
                 print("frame_{0} was saved".format(i+1))
 
@@ -140,7 +139,6 @@ class FlipbookConverter(metaclass=Singleton):
             img = Image.merge("RGBA", (b, g, r, a))
         elif img.mode == "L":
             img = img.convert("RGBA")
-
         img = img.convert("RGBA")
         return img.tobytes("raw", "RGBA"), img.size
 

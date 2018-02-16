@@ -36,7 +36,7 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
             print("Output directory is not selected!")
 
     def click_btn_save(self):
-        if self.frames.framesList:
+        if len(self.frames):
             r1 = self.sb_range_horizontal.value()
             r2 = self.sb_range_vertical.value()
             if self.fld_out_path.text():
@@ -50,7 +50,7 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
             print("Frames list is empty!")
 
     def click_btn_saveall(self):
-        if self.frames.framesList:
+        if len(self.frames):
             if self.fld_out_path.text():
                 self.flipbook.saveAll(self.fld_out_path.text(), self.comboBox.currentText())
             else:
@@ -63,7 +63,7 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
         if path:
             self.fld_path.setText(path)
             if self.flipbook.getImage(path):
-                del(self.frames.framesList)
+                self.frames.__del__()
                 self.sb_vertical_line.setValue(1)
                 self.sb_horizontal_line.setValue(1)
                 self.sl_frame.setMaximum(0)
@@ -83,11 +83,9 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
 
     def changed_sl_frame(self):
         if self.sl_frame.value() > 0:
-            if self.frames.framesList:
-                self.set_preview_img(self.frames.framesList[self.sl_frame.value()-1])
-                self.label_3.setText("{0} X {1}".format(
-                    self.frames.framesList[self.sl_frame.value()-1].width,
-                                               self.frames.framesList[self.sl_frame.value() - 1].height))
+            if len(self.frames):
+                self.set_preview_img(self.frames[self.sl_frame.value()-1])
+                self.label_3.setText("{0} X {1}".format(self.frames[self.sl_frame.value()-1].width, self.frames[self.sl_frame.value() - 1].height))
             else:
                 print("Frames list is empty!")
         else:
@@ -96,17 +94,17 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
 
     def changed_sb_frames_count(self):
         if self.flipbook.sourceImg:
-            del(self.frames.framesList)
+            self.frames.__del__()
             self.frames.framesCountX = self.sb_vertical_line.value()
             self.frames.framesCountY = self.sb_horizontal_line.value()
             self.frames.frameSizeX, self.frames.frameSizeY = self.flipbook.imageSizeCompensation()
             self.flipbook.reverseConvertSubUV()
-            self.sl_frame.setMaximum(len(self.frames.framesList))
-            self.sb_range_horizontal.setMaximum(len(self.frames.framesList))
-            self.sb_range_vertical.setMaximum(len(self.frames.framesList))
-            self.label_2.setText(str(len(self.frames.framesList)))
+            self.sl_frame.setMaximum(len(self.frames))
+            self.sb_range_horizontal.setMaximum(len(self.frames))
+            self.sb_range_vertical.setMaximum(len(self.frames))
+            self.label_2.setText(str(len(self.frames)))
             if self.sl_frame.value() != 0:
-                self.set_preview_img(self.frames.framesList[self.sl_frame.value()-1])
+                self.set_preview_img(self.frames[self.sl_frame.value()-1])
         else:
             print("Image is not selected! Please, select an image!")
 
