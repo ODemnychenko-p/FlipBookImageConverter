@@ -15,10 +15,8 @@ class Singleton(type):
 class Frames(metaclass=Singleton):
     def __init__(self):
         self._all = []
-        self._framesCountX = 1
-        self._framesCountY = 1
-        self._frameSizeX = 1
-        self._frameSizeY = 1
+        self._frames_count = 1, 1
+        self._frames_size = 1, 1
 
     def __len__(self):
         """Get frames length"""
@@ -36,22 +34,13 @@ class Frames(metaclass=Singleton):
         print("Frames is deleted!")
 
     @property
-    def frameSizeX(self):
-        return self._frameSizeX
+    def frameSize(self):
+        return self._frames_size
 
-    @frameSizeX.setter
-    def frameSizeX(self, value):
-        self._frameSizeX = value / self.framesCountX
-        print(self._frameSizeX)
-
-    @property
-    def frameSizeY(self):
-        return self._frameSizeY
-
-    @frameSizeY.setter
-    def frameSizeY(self, value):
-        self._frameSizeY = value / self.framesCountY
-        print(self._frameSizeY)
+    @frameSize.setter
+    def frameSize(self, value):
+        self._frames_size = value[0] / self._frames_count[0], value[1] / self._frames_count[1],
+        print("Frame size is : {0}".format(self._frames_size))
 
     @property
     def framesList(self):
@@ -65,67 +54,61 @@ class Frames(metaclass=Singleton):
         print("Frame({0}): {1} was added!".format(len(self._all), value))
 
     @property
-    def framesCountX(self):
-        """Get horizontal frame count"""
-        return self._framesCountX
+    def framesCount(self):
+        """Get frames count, vertical and horizontal"""
+        return self._frames_count
 
-    @framesCountX.setter
-    def framesCountX(self, value):
-        """Set horizontal frame count"""
-        self._framesCountX = value
-        print("Frames count X: {0}".format(self._framesCountX))
-
-    @property
-    def framesCountY(self):
-        """Get vertical frame count"""
-        return self._framesCountY
-
-    @framesCountY.setter
-    def framesCountY(self, value):
-        """Set vertical frame count"""
-        self._framesCountY =  value
-        print("Frames count Y: {0}".format(self._framesCountY))
+    @framesCount.setter
+    def framesCount(self, value):
+        """Set vframes count, vertical and horizontal"""
+        self._frames_count = value
+        print("Frames count X, Y {0}".format(self._frames_count))
 
 class FlipbookConverter(metaclass=Singleton):
     def __init__(self):
         self._frames = Frames()
-        self.sourceImg = None
-        self.imgName = ""
-        self.imgMode = ""
-        self.imgFormat = ""
-        self.imgSizePX = []
-        self.imgSizeMb = ""
+        self.source_image = None
+        self.image_name = ""
+        self.image_mode = ""
+        self.image_format = ""
+        self.image_size_px = []
+        self.image_size_mb = ""
 
     def save(self, r1, r2, path, ext):
         if len(self._frames):
-            for i in range(r1-1, r2):
-                img = self._frames[i]
-                img.save("{0}/frame_{1}.{2}".format(path, i+1, ext))
-                print("frame_{0} was saved".format(i+1))
+            if r1 == r2 or r1 <= r2:
+                for i in range(r1-1, r2):
+                    self._frames[i].save("{0}/frame_{1}.{2}".format(path, i + 1, ext))
+                    print("frame_{0} was saved".format(i+1))
+            else:
+                print("Selected range is incorrect!")
+        else:
+            print("Frames list is empty!")
 
-    def saveAll(self, path, ext):
+    def save_all(self, path, ext):
         if len(self._frames):
             for i in range(0, len(self._frames)):
-                img = self._frames[i]
-                img.save("{0}/frame_{1}.{2}".format(path, i+1, ext))
+                self._frames[i].save("{0}/frame_{1}.{2}".format(path, i + 1, ext))
                 print("frame_{0} was saved".format(i+1))
+        else:
+            print("Frames list is empty!")
 
-    def getImage(self, path):
+    def get_image(self, path):
         try:
-            self.sourceImg = Image.open(path)
+            self.source_image = Image.open(path)
         except FileNotFoundError:
             return False
         else:
-            self.imgName, self.imgFormat = os.path.splitext(os.path.basename(self.sourceImg.filename))
-            self.imgMode = self.sourceImg.mode
-            self.imgSizePX = self.sourceImg.width, self.sourceImg.height
-            self.imgSizeMb = "{0}".format(os.path.getsize(path) / 1000)
+            self.image_name, self.image_format = os.path.splitext(os.path.basename(self.source_image.filename))
+            self.image_mode = self.source_image.mode
+            self.image_size_px = self.source_image.size
+            self.image_size_mb = "{0}".format(os.path.getsize(path) / 1000)
             return True
 
-    def getImgData(self, img = 0):
+    def get_image_data(self, img=0):
 
         if not img:
-            img = self.sourceImg
+            img = self.source_image
         if max(img.size) >= 512:
             k = max(img.size) / 512
             w = int(img.width / k)
@@ -142,46 +125,28 @@ class FlipbookConverter(metaclass=Singleton):
         img = img.convert("RGBA")
         return img.tobytes("raw", "RGBA"), img.size
 
-    def imageSizeCompensation(self):
-        kx = 1 - (self.imgSizePX[0] / self._frames.framesCountX)%1
-        print("kx: {0}".format(kx))
-        ky = 1 - (self.imgSizePX[1] / self._frames.framesCountY)%1
-        print("ky: {0}".format(ky))
-        k = kx * self._frames.framesCountX, ky * self._frames.framesCountY
-        print("k: {0}".format(k))
-        new_size = int(k[0] + self.imgSizePX[0]), int(k[1] + self.imgSizePX[1])
-        self.sourceImg = self.sourceImg.resize(new_size, Image.ANTIALIAS)
-        print("New source image size: {0}".format(str(self.sourceImg.size)))
-        return self.sourceImg.size
+    def image_size_compensation(self):
 
-    def reverseConvertSubUV(self):
+        width, height = map(
+            lambda x: int(((1 - (x[0]/x[1] % 1)) * x[1]) + x[0]),
+            zip(self.image_size_px, self._frames.framesCount)
+        )
+        self.source_image = self.source_image.resize((width, height), Image.ANTIALIAS)
+        print("New source image size: {0} X {1}".format(width, height))
+        return width, height
+
+    def reverse_convert(self):
         left = 0
         top = 0
-        right = self._frames.frameSizeX
-        bottom = self._frames.frameSizeY
-        print("right = {0}\n bottom = {1}".format(type(right), type(bottom)))
-        for j in range(1, self._frames.framesCountY + 1):
+        right, bottom = self._frames.frameSize
+        for j in range(1, self._frames.framesCount[1] + 1):
             if j >= 2:
                 top = bottom
-                bottom = self._frames.frameSizeY * j
-            for i in range(1, self._frames.framesCountX+ 1):
+                bottom = self._frames.frameSize[1] * j
+            for i in range(1, self._frames.framesCount[0] + 1):
                 if i >= 2:
                     left = right
-                    right = self._frames.frameSizeX * i
-                self._frames.framesList = self.sourceImg.crop((left, top, right, bottom))
+                    right = self._frames.frameSize[0] * i
+                self._frames.framesList = self.source_image.crop((left, top, right, bottom))
             left = 0
-            right = self._frames.frameSizeX
-
-    # def convertInToSubUV(self):
-    #     frame_index_w = 0
-    #     frame_index_h = 0
-    #     background_size = int(self._frames.framesCountX * self._frames.frameSizeX), int(self._frames.framesCountY * self._frames.frameSizeY)
-    #     print(background_size)
-    #     background_img = Image.new('RGB', background_size, (0, 0, 0, 0))
-    #     for obj in self._frames.framesList:
-    #         background_img.paste(obj, (int(frame_index_w * self._frames.frameSizeX), int(frame_index_h * self._frames.frameSizeY)))
-    #         frame_index_w += 1
-    #         if frame_index_w == self._frames.framesCountX:
-    #             frame_index_h += 1
-    #             frame_index_w = 0
-    #     background_img.save("{0}/{1}".format("./test", "test.tga"))
+            right = self._frames.frameSize[0]
