@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 import os
 
 class Singleton(type):
@@ -68,30 +68,30 @@ class FlipbookConverter(metaclass=Singleton):
     def __init__(self):
         self._frames = Frames()
         self.source_image = None
+        # self.label_image_info = Image.new('RGBA', (512, 512), (255, 255, 255, 0))
+        # self.label_background = Image.new('RGBA', (512, 512), (30, 30, 30, 0))
+        self.image_path = ""
         self.image_name = ""
         self.image_mode = ""
         self.image_format = ""
         self.image_size_px = []
         self.image_size_mb = ""
 
-    def save(self, r1, r2, path, ext):
-        if len(self._frames):
-            if r1 == r2 or r1 <= r2:
-                for i in range(r1-1, r2):
-                    self._frames[i].save("{0}/frame_{1}.{2}".format(path, i + 1, ext))
-                    print("frame_{0} was saved".format(i+1))
+    def render(self, args, cur_id=0, path="", ext="TGA", filename="frame"):
+        if args:
+            start, end, inc = args
+            if start <= end:
+                for i in range(start-1, end, inc):
+                    self._frames[i].save("{0}/{1}_{2}.{3}".format(path, filename, i, ext))
+                    print("{0}_{1} was saved".format(filename, i))
             else:
-                print("Selected range is incorrect!")
+                print("Frame range is incorrect!")
         else:
-            print("Frames list is empty!")
-
-    def save_all(self, path, ext):
-        if len(self._frames):
-            for i in range(0, len(self._frames)):
-                self._frames[i].save("{0}/frame_{1}.{2}".format(path, i + 1, ext))
-                print("frame_{0} was saved".format(i+1))
-        else:
-            print("Frames list is empty!")
+            if cur_id:
+                self._frames[cur_id-1].save("{0}/{1}_{2}.{3}".format(path, filename, cur_id-1, ext))
+                print("{0}_{1} was saved".format(filename, cur_id-1))
+            else:
+                print("Frame is not selected!")
 
     def get_image(self, path):
         try:
@@ -103,7 +103,27 @@ class FlipbookConverter(metaclass=Singleton):
             self.image_mode = self.source_image.mode
             self.image_size_px = self.source_image.size
             self.image_size_mb = "{0}".format(os.path.getsize(path) / 1000)
+            self.image_path = os.path.dirname(self.source_image.filename)
             return True
+
+    # def create_label_info(self):
+    #     pad = 15
+    #     txt = "Info:\n" \
+    #           "Path: {0}\n" \
+    #           "Name: {1}\n" \
+    #           "Format: {2}\n" \
+    #           "Mode: {3}\n" \
+    #           "Size(px): {4}\n" \
+    #           "Size(Mb): {5}".format(self.image_path,
+    #                                  self.image_name,
+    #                                  self.image_format,
+    #                                  self.image_mode,
+    #                                  self.image_size_px,
+    #                                  self.image_size_mb)
+    #     draw = ImageDraw.Draw(self.label_image_info)
+    #     width, height = draw.textsize(txt)
+    #     draw.rectangle(((10, 10), width + pad, height + pad), fill=(50, 50, 50, 50))
+    #     draw.text((15, 15), txt, font=ImageFont.load_default(), fill=(0, 0, 0, 255))
 
     def get_image_data(self, img=0):
 
@@ -114,6 +134,12 @@ class FlipbookConverter(metaclass=Singleton):
             w = int(img.width / k)
             h = int(img.height / k)
             img = img.resize((w, h), Image.ANTIALIAS)
+
+        # offset = (round((512 - img.width) / 2), round((512 - img.height) / 2))
+        # self.label_background.paste(img, offset)
+        # self.create_label_info()
+        # img = Image.alpha_composite(self.label_background, self.label_image_info )
+
         if img.mode == "RGB":
             r, g, b = img.split()
             img = Image.merge("RGB", (b, g, r))
