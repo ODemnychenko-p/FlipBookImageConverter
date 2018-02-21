@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'UI/flipbook_UI_WINDOWS_ver2.ui'
+# Form implementation generated from reading ui file 'D:\Demnichenko\Programming\FlipBookImageConverter\UI\flipbook_UI_WINDOWS_ver2.ui'
 #
 # Created by: PyQt5 UI code generator 5.8.2
 #
@@ -1273,6 +1273,7 @@ class Ui_MainWindow(object):
 "    margin: -8px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */\n"
 "    border-radius: 3px;\n"
 "}")
+        self.sl_frame.setMaximum(0)
         self.sl_frame.setOrientation(QtCore.Qt.Horizontal)
         self.sl_frame.setInvertedAppearance(False)
         self.sl_frame.setInvertedControls(False)
@@ -1287,7 +1288,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(3)
+        self.tabWidget.setCurrentIndex(1)
         self.cb_valid_frame_range.setCurrentIndex(0)
         self.sl_frame.valueChanged['int'].connect(self.l_t_current_frame_id.setNum)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
