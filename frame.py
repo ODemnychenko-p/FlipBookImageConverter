@@ -3,9 +3,7 @@ class Frames:
         self._all = []
         self._out_mosaic = None
         self._count, self._img = args
-        self._width, self._height = map(lambda x: x[1] / x[0],
-                                        zip(self._count, self._img.size)
-                                        )
+        self._width, self._height = map(lambda x: x[1] / x[0], zip(self._count, self._img.size))
     def __len__(self):
         """Get frames length"""
         return len(self._all)
@@ -18,7 +16,6 @@ class Frames:
 
     @property
     def frameSize(self):
-        print("Frame size is : {0} X {1}".format(self._width, self._height))
         return self._width, self._height
 
     @property

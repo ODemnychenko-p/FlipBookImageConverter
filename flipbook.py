@@ -21,8 +21,10 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
         self.img = None
         self.frames = None
         self.mosaic = None
+        self.current_tab = None
 
         self.tabWidget.setCurrentWidget(self.tab)
+        self.tabWidget.currentChanged.connect(lambda: self.tab_changed())
 
         self.btn_image_path.clicked.connect(lambda: self.click_btn_image_path())
         self.btn_frames_path.clicked.connect(lambda: self.click_btn_frames_path())
@@ -40,6 +42,18 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
         self.sb_horizontal_line.valueChanged.connect(lambda: self.changed_sb_frames_count())
         self.sl_frame.valueChanged.connect(lambda: self.changed_sl_frame())
         self.cb_valid_frame_range.currentIndexChanged.connect(lambda: self.valid_frame_range_changed())
+
+    def tab_changed(self):
+        if self.tabWidget.currentIndex() == 1:
+            self.current_tab = 1
+            if self.frames:
+                self.update_settings(self.frames)
+                self.l_preview_image.setPixmap(self.update_preview(self.frames[self.sl_frame.value()]))
+        elif self.tabWidget.currentIndex() == 2:
+            self.current_tab = 2
+            if self.mosaic:
+                self.update_settings(self.mosaic)
+                self.l_preview_image.setPixmap(self.update_preview(self.mosaic.outMosaic))
 
     def generate_mosaic(self):
         if self.mosaic:
@@ -77,10 +91,16 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
             for file in files:
                 self.mosaic.framesList = Image.open(file)
 
+            self.sb_max_images.setValue(1)
+            self.sb_images_per_line.setValue(1)
+            self.sb_background_color_r.setValue(0)
+            self.sb_background_color_g.setValue(0)
+            self.sb_background_color_b.setValue(0)
+            self.sb_background_color_a.setValue(0)
             self.sb_max_images.setMaximum(len(self.mosaic))
             self.sb_images_per_line.setMaximum(len(self.mosaic))
             self.update_settings(self.mosaic)
-            self.l_preview_image.setPixmap(self.update_preview(self.mosaic[self.sl_frame.value()]))
+            self.generate_mosaic()
 
     def click_btn_outpath(self):
 
@@ -123,17 +143,17 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
             self.statusbar.showMessage("Image is not selected! Please, select an image!", 5000)
 
     def changed_sl_frame(self):
-        if not self.checkBox.isChecked():
+        if self.current_tab == 1:
             self.l_preview_image.setPixmap(self.update_preview(self.frames[self.sl_frame.value()]))
-        if self.mosaic:
+        else:
             self.l_preview_image.setPixmap(self.update_preview(self.mosaic[self.sl_frame.value()]))
 
     def update_settings(self, fr):
-        self.sl_frame.setMaximum(len(fr) - 1)
-        self.l_t_total_frames_count.setText(str(len(fr)))
-        self.l_t_frame_size_px.setText(str(fr[self.sl_frame.value()].size))
-        self.sb_start_value.setMaximum(len(fr) - 1)
-        self.sb_end_value.setMaximum(len(fr) - 1)
+            self.sl_frame.setMaximum(len(fr) - 1)
+            self.l_t_total_frames_count.setText(str(len(fr)))
+            self.l_t_frame_size_px.setText(str(fr[self.sl_frame.value()].size))
+            self.sb_start_value.setMaximum(len(fr) - 1)
+            self.sb_end_value.setMaximum(len(fr) - 1)
 
     def changed_sb_frames_count(self):
 
@@ -242,14 +262,14 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
 
     def render(self):
         filename = self.fld_filename.text() if self.fld_filename.text() else "frame"
-        if self.checkBox.isChecked():
+        if self.current_tab == 2:
             self.mosaic.outMosaic.save("{0}/{1}.{2}".format(
                 self.fld_out_path.text(),
                 filename,
                 self.cb_image_format.currentText()
             ))
             print("{0} was saved".format(filename))
-        else:
+        elif self.current_tab == 1:
             if self.sb_start_value.isEnabled():
                 if self.sb_start_value.value() <= self.sb_end_value.value():
                     for i in range(self.sb_start_value.value(), self.sb_end_value.value()+1, self.sb_inc_value.value()+1):
