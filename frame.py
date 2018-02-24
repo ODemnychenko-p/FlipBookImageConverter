@@ -1,9 +1,13 @@
 class Frames:
-    def __init__(self, *args):
+    def __init__(self):
         self._all = []
-        self._out_mosaic = None
-        self._count, self._img = args
-        self._width, self._height = map(lambda x: x[1] / x[0], zip(self._count, self._img.size))
+        self._count = [1, 1]
+        self._width, self._height = 1, 1
+        self.outMosaic = None
+
+    def __del__(self):
+        self._all.clear()
+
     def __len__(self):
         """Get frames length"""
         return len(self._all)
@@ -17,6 +21,10 @@ class Frames:
     @property
     def frameSize(self):
         return self._width, self._height
+
+    @frameSize.setter
+    def frameSize(self, value):
+        self._width, self._height = map(lambda x: x[1] / x[0], zip(self._count, value))
 
     @property
     def framesList(self):
@@ -34,6 +42,10 @@ class Frames:
         """Get frames count, vertical and horizontal"""
         return self._count
 
+    @framesCount.setter
+    def framesCount(self, value):
+        self._count = value
+
     @property
     def outMosaic(self):
         return self._out_mosaic
@@ -41,11 +53,4 @@ class Frames:
     @outMosaic.setter
     def outMosaic(self, val):
         self._out_mosaic = val
-
-
-class Mosaic(Frames):
-    def __init__(self, *args):
-        self._all = []
-        self._count, self._max_images = args
-
 
