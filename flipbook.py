@@ -64,8 +64,6 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
                 )
             )
             self.l_preview_image.setPixmap(update_preview(self.frames.outMosaic, self.label_info(self.frames.outMosaic)))
-        else:
-            self.statusbar.showMessage("Frames list is empty!", 3000)
 
     def valid_frame_range_changed(self):
         bool_ = True if self.cb_valid_frame_range.currentIndex() == 1 else 0
