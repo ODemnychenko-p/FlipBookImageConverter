@@ -83,6 +83,8 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
             self.sb_max_images.setMaximum(len(self.frames))
             self.sb_images_per_line.setMaximum(len(self.frames))
             self.sl_frame.setMaximum(len(self.frames)-1)
+            self.sb_start_value.setMaximum(len(self.frames))
+            self.sb_end_value.setMaximum(len(self.frames))
             self.generate_mosaic()
 
     def click_btn_outpath(self):
@@ -131,6 +133,8 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
             self.sb_max_images.setMaximum(len(self.frames))
             self.sb_images_per_line.setMaximum(len(self.frames))
             self.sl_frame.setMaximum(len(self.frames)-1)
+            self.sb_start_value.setMaximum(len(self.frames))
+            self.sb_end_value.setMaximum(len(self.frames))
             self.l_preview_image.setPixmap(update_preview(self.frames[self.sl_frame.value()], self.label_info()))
         else:
             self.statusbar.showMessage("Image is not selected! Please, select an image!", 3000)
