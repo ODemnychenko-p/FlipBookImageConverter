@@ -25,6 +25,10 @@
   <property name="windowTitle">
    <string>FlipBook Converter</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../logo/icon.png</normaloff>../logo/icon.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow {
 	background-color: rgb(81, 81, 81);
@@ -34,6 +38,12 @@ color: rgb(203, 203, 203);
 background-color: rgb(89, 90, 90);
 }
 </string>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>60</width>
+    <height>60</height>
+   </size>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_18">
@@ -356,7 +366,7 @@ QTabBar::tab:selected {
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -920,6 +930,122 @@ QToolButton:hover {
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
         <item row="2" column="0" colspan="2">
+         <widget class="QGroupBox" name="groupBox_3">
+          <property name="minimumSize">
+           <size>
+            <width>320</width>
+            <height>61</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>320</width>
+            <height>61</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QGroupBox {
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin-top: 1ex; /* leave space at the top for the title */
+}
+QGroupBox::title {
+	color: rgb(203, 203, 203);
+	subcontrol-origin: margin;
+    subcontrol-position: top center; /* position at the top center */
+    padding: 0 3px;
+}
+</string>
+          </property>
+          <property name="title">
+           <string>Images per line</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_37">
+           <item row="0" column="0">
+            <widget class="QFrame" name="fr_images_per_line">
+             <property name="minimumSize">
+              <size>
+               <width>300</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>300</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_22">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item row="0" column="0">
+               <widget class="QSpinBox" name="sb_images_per_line">
+                <property name="minimumSize">
+                 <size>
+                  <width>281</width>
+                  <height>24</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>281</width>
+                  <height>24</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QSpinBox{
+color: rgb(203, 203, 203);
+background-color: rgb(117, 117, 117);
+border-radius: 8px;
+padding: 5px;
+}</string>
+                </property>
+                <property name="wrapping">
+                 <bool>false</bool>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="correctionMode">
+                 <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+                <property name="value">
+                 <number>1</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="2">
          <widget class="QGroupBox" name="groupBox_4">
           <property name="minimumSize">
            <size>
@@ -1041,121 +1167,61 @@ background-color: rgb(100, 100, 100);
           </layout>
          </widget>
         </item>
-        <item row="3" column="0" colspan="2">
-         <widget class="QGroupBox" name="groupBox_3">
+        <item row="5" column="0" colspan="2">
+         <widget class="QLabel" name="l_mosaic_tab_warning">
           <property name="minimumSize">
            <size>
             <width>320</width>
-            <height>61</height>
+            <height>80</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>320</width>
-            <height>61</height>
+            <height>80</height>
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">QGroupBox {
-    border: 1px solid gray;
-    border-radius: 10px;
-    margin-top: 1ex; /* leave space at the top for the title */
-}
-QGroupBox::title {
-	color: rgb(203, 203, 203);
-	subcontrol-origin: margin;
-    subcontrol-position: top center; /* position at the top center */
-    padding: 0 3px;
-}
-</string>
-          </property>
-          <property name="title">
-           <string>Images per line</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_37">
-           <item row="0" column="0">
-            <widget class="QFrame" name="fr_images_per_line">
-             <property name="minimumSize">
-              <size>
-               <width>300</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>300</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_22">
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <property name="rightMargin">
-               <number>0</number>
-              </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
-              <property name="spacing">
-               <number>0</number>
-              </property>
-              <item row="0" column="0">
-               <widget class="QSpinBox" name="sb_images_per_line">
-                <property name="minimumSize">
-                 <size>
-                  <width>281</width>
-                  <height>24</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>281</width>
-                  <height>24</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QSpinBox{
-color: rgb(203, 203, 203);
-background-color: rgb(117, 117, 117);
+           <string notr="true">QLabel{
+color: rgb(226, 113, 113);
+background-color: rgb(89, 90, 90);
 border-radius: 8px;
 padding: 5px;
+border: 1px solid gray;
 }</string>
-                </property>
-                <property name="wrapping">
-                 <bool>false</bool>
-                </property>
-                <property name="buttonSymbols">
-                 <enum>QAbstractSpinBox::NoButtons</enum>
-                </property>
-                <property name="correctionMode">
-                 <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
-                </property>
-                <property name="minimum">
-                 <number>1</number>
-                </property>
-                <property name="maximum">
-                 <number>100</number>
-                </property>
-                <property name="value">
-                 <number>1</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-          </layout>
+          </property>
+          <property name="text">
+           <string>If you want get SubUV or Flipbook from frames list, use this tab</string>
+          </property>
+          <property name="textFormat">
+           <enum>Qt::AutoText</enum>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+          <property name="margin">
+           <number>10</number>
+          </property>
          </widget>
+        </item>
+        <item row="6" column="0" colspan="2">
+         <spacer name="verticalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item row="4" column="0" colspan="2">
          <widget class="QGroupBox" name="groupBox_5">
@@ -1485,7 +1551,7 @@ padding: 5px;
           </layout>
          </widget>
         </item>
-        <item row="1" column="0" colspan="2">
+        <item row="0" column="0" colspan="2">
          <widget class="QGroupBox" name="groupBox_2">
           <property name="minimumSize">
            <size>
@@ -1607,93 +1673,121 @@ QPushButton:hover {
           </layout>
          </widget>
         </item>
-        <item row="0" column="1">
-         <spacer name="verticalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>10</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="6" column="0" colspan="2">
-         <widget class="QLabel" name="l_mosaic_tab_warning">
+        <item row="3" column="0">
+         <widget class="QGroupBox" name="groupBox_10">
           <property name="minimumSize">
            <size>
             <width>320</width>
-            <height>80</height>
+            <height>61</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>320</width>
-            <height>80</height>
+            <height>61</height>
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">QLabel{
-color: rgb(226, 113, 113);
-background-color: rgb(89, 90, 90);
+           <string notr="true">QGroupBox {
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin-top: 1ex; /* leave space at the top for the title */
+}
+QGroupBox::title {
+	color: rgb(203, 203, 203);
+	subcontrol-origin: margin;
+    subcontrol-position: top center; /* position at the top center */
+    padding: 0 3px;
+}
+</string>
+          </property>
+          <property name="title">
+           <string>Increment</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_40">
+           <item row="0" column="0">
+            <widget class="QFrame" name="fr_sb_increment">
+             <property name="minimumSize">
+              <size>
+               <width>300</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>300</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_28">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item row="0" column="0">
+               <widget class="QSpinBox" name="sb_increment">
+                <property name="minimumSize">
+                 <size>
+                  <width>281</width>
+                  <height>24</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>281</width>
+                  <height>24</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QSpinBox{
+color: rgb(203, 203, 203);
+background-color: rgb(117, 117, 117);
 border-radius: 8px;
 padding: 5px;
-border: 1px solid gray;
 }</string>
-          </property>
-          <property name="text">
-           <string>If you want get SubUV or Flipbook from frames list, use this tab</string>
-          </property>
-          <property name="textFormat">
-           <enum>Qt::AutoText</enum>
-          </property>
-          <property name="scaledContents">
-           <bool>false</bool>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="wordWrap">
-           <bool>true</bool>
-          </property>
-          <property name="margin">
-           <number>10</number>
-          </property>
+                </property>
+                <property name="wrapping">
+                 <bool>false</bool>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="correctionMode">
+                 <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+                <property name="value">
+                 <number>1</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
          </widget>
-        </item>
-        <item row="7" column="0" colspan="2">
-         <spacer name="verticalSpacer_6">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="5" column="0">
-         <spacer name="verticalSpacer_10">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>10</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </widget>

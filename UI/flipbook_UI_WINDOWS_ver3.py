@@ -14,6 +14,9 @@ class Ui_MainWindow(object):
         MainWindow.resize(913, 630)
         MainWindow.setMinimumSize(QtCore.QSize(913, 630))
         MainWindow.setMaximumSize(QtCore.QSize(913, 630))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("D:\Demnichenko\Programming\FlipBookImageConverter\logo\icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet("QMainWindow {\n"
 "    background-color: rgb(81, 81, 81);\n"
 "}\n"
@@ -22,6 +25,7 @@ class Ui_MainWindow(object):
 "background-color: rgb(89, 90, 90);\n"
 "}\n"
 "")
+        MainWindow.setIconSize(QtCore.QSize(60, 60))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_18 = QtWidgets.QGridLayout(self.centralwidget)
@@ -347,6 +351,53 @@ class Ui_MainWindow(object):
         self.tab_mosaic.setObjectName("tab_mosaic")
         self.gridLayout = QtWidgets.QGridLayout(self.tab_mosaic)
         self.gridLayout.setObjectName("gridLayout")
+        self.groupBox_3 = QtWidgets.QGroupBox(self.tab_mosaic)
+        self.groupBox_3.setMinimumSize(QtCore.QSize(320, 61))
+        self.groupBox_3.setMaximumSize(QtCore.QSize(320, 61))
+        self.groupBox_3.setStyleSheet("QGroupBox {\n"
+"    border: 1px solid gray;\n"
+"    border-radius: 10px;\n"
+"    margin-top: 1ex; /* leave space at the top for the title */\n"
+"}\n"
+"QGroupBox::title {\n"
+"    color: rgb(203, 203, 203);\n"
+"    subcontrol-origin: margin;\n"
+"    subcontrol-position: top center; /* position at the top center */\n"
+"    padding: 0 3px;\n"
+"}\n"
+"")
+        self.groupBox_3.setObjectName("groupBox_3")
+        self.gridLayout_37 = QtWidgets.QGridLayout(self.groupBox_3)
+        self.gridLayout_37.setObjectName("gridLayout_37")
+        self.fr_images_per_line = QtWidgets.QFrame(self.groupBox_3)
+        self.fr_images_per_line.setMinimumSize(QtCore.QSize(300, 30))
+        self.fr_images_per_line.setMaximumSize(QtCore.QSize(300, 30))
+        self.fr_images_per_line.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.fr_images_per_line.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.fr_images_per_line.setObjectName("fr_images_per_line")
+        self.gridLayout_22 = QtWidgets.QGridLayout(self.fr_images_per_line)
+        self.gridLayout_22.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout_22.setSpacing(0)
+        self.gridLayout_22.setObjectName("gridLayout_22")
+        self.sb_images_per_line = QtWidgets.QSpinBox(self.fr_images_per_line)
+        self.sb_images_per_line.setMinimumSize(QtCore.QSize(281, 24))
+        self.sb_images_per_line.setMaximumSize(QtCore.QSize(281, 24))
+        self.sb_images_per_line.setStyleSheet("QSpinBox{\n"
+"color: rgb(203, 203, 203);\n"
+"background-color: rgb(117, 117, 117);\n"
+"border-radius: 8px;\n"
+"padding: 5px;\n"
+"}")
+        self.sb_images_per_line.setWrapping(False)
+        self.sb_images_per_line.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
+        self.sb_images_per_line.setCorrectionMode(QtWidgets.QAbstractSpinBox.CorrectToNearestValue)
+        self.sb_images_per_line.setMinimum(1)
+        self.sb_images_per_line.setMaximum(100)
+        self.sb_images_per_line.setProperty("value", 1)
+        self.sb_images_per_line.setObjectName("sb_images_per_line")
+        self.gridLayout_22.addWidget(self.sb_images_per_line, 0, 0, 1, 1)
+        self.gridLayout_37.addWidget(self.fr_images_per_line, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.groupBox_3, 2, 0, 1, 2)
         self.groupBox_4 = QtWidgets.QGroupBox(self.tab_mosaic)
         self.groupBox_4.setMinimumSize(QtCore.QSize(320, 61))
         self.groupBox_4.setMaximumSize(QtCore.QSize(320, 61))
@@ -397,54 +448,25 @@ class Ui_MainWindow(object):
         self.sb_max_images.setObjectName("sb_max_images")
         self.gridLayout_23.addWidget(self.sb_max_images, 0, 1, 1, 1)
         self.gridLayout_38.addWidget(self.fr_max_images, 0, 0, 1, 1)
-        self.gridLayout.addWidget(self.groupBox_4, 2, 0, 1, 2)
-        self.groupBox_3 = QtWidgets.QGroupBox(self.tab_mosaic)
-        self.groupBox_3.setMinimumSize(QtCore.QSize(320, 61))
-        self.groupBox_3.setMaximumSize(QtCore.QSize(320, 61))
-        self.groupBox_3.setStyleSheet("QGroupBox {\n"
-"    border: 1px solid gray;\n"
-"    border-radius: 10px;\n"
-"    margin-top: 1ex; /* leave space at the top for the title */\n"
-"}\n"
-"QGroupBox::title {\n"
-"    color: rgb(203, 203, 203);\n"
-"    subcontrol-origin: margin;\n"
-"    subcontrol-position: top center; /* position at the top center */\n"
-"    padding: 0 3px;\n"
-"}\n"
-"")
-        self.groupBox_3.setObjectName("groupBox_3")
-        self.gridLayout_37 = QtWidgets.QGridLayout(self.groupBox_3)
-        self.gridLayout_37.setObjectName("gridLayout_37")
-        self.fr_images_per_line = QtWidgets.QFrame(self.groupBox_3)
-        self.fr_images_per_line.setMinimumSize(QtCore.QSize(300, 30))
-        self.fr_images_per_line.setMaximumSize(QtCore.QSize(300, 30))
-        self.fr_images_per_line.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.fr_images_per_line.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.fr_images_per_line.setObjectName("fr_images_per_line")
-        self.gridLayout_22 = QtWidgets.QGridLayout(self.fr_images_per_line)
-        self.gridLayout_22.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout_22.setSpacing(0)
-        self.gridLayout_22.setObjectName("gridLayout_22")
-        self.sb_images_per_line = QtWidgets.QSpinBox(self.fr_images_per_line)
-        self.sb_images_per_line.setMinimumSize(QtCore.QSize(281, 24))
-        self.sb_images_per_line.setMaximumSize(QtCore.QSize(281, 24))
-        self.sb_images_per_line.setStyleSheet("QSpinBox{\n"
-"color: rgb(203, 203, 203);\n"
-"background-color: rgb(117, 117, 117);\n"
+        self.gridLayout.addWidget(self.groupBox_4, 1, 0, 1, 2)
+        self.l_mosaic_tab_warning = QtWidgets.QLabel(self.tab_mosaic)
+        self.l_mosaic_tab_warning.setMinimumSize(QtCore.QSize(320, 80))
+        self.l_mosaic_tab_warning.setMaximumSize(QtCore.QSize(320, 80))
+        self.l_mosaic_tab_warning.setStyleSheet("QLabel{\n"
+"color: rgb(226, 113, 113);\n"
+"background-color: rgb(89, 90, 90);\n"
 "border-radius: 8px;\n"
 "padding: 5px;\n"
+"border: 1px solid gray;\n"
 "}")
-        self.sb_images_per_line.setWrapping(False)
-        self.sb_images_per_line.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
-        self.sb_images_per_line.setCorrectionMode(QtWidgets.QAbstractSpinBox.CorrectToNearestValue)
-        self.sb_images_per_line.setMinimum(1)
-        self.sb_images_per_line.setMaximum(100)
-        self.sb_images_per_line.setProperty("value", 1)
-        self.sb_images_per_line.setObjectName("sb_images_per_line")
-        self.gridLayout_22.addWidget(self.sb_images_per_line, 0, 0, 1, 1)
-        self.gridLayout_37.addWidget(self.fr_images_per_line, 0, 0, 1, 1)
-        self.gridLayout.addWidget(self.groupBox_3, 3, 0, 1, 2)
+        self.l_mosaic_tab_warning.setTextFormat(QtCore.Qt.AutoText)
+        self.l_mosaic_tab_warning.setScaledContents(False)
+        self.l_mosaic_tab_warning.setAlignment(QtCore.Qt.AlignCenter)
+        self.l_mosaic_tab_warning.setWordWrap(True)
+        self.l_mosaic_tab_warning.setObjectName("l_mosaic_tab_warning")
+        self.gridLayout.addWidget(self.l_mosaic_tab_warning, 5, 0, 1, 2)
+        spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout.addItem(spacerItem7, 6, 0, 1, 2)
         self.groupBox_5 = QtWidgets.QGroupBox(self.tab_mosaic)
         self.groupBox_5.setMinimumSize(QtCore.QSize(320, 61))
         self.groupBox_5.setMaximumSize(QtCore.QSize(320, 61))
@@ -473,12 +495,12 @@ class Ui_MainWindow(object):
         self.gridLayout_35.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_35.setSpacing(0)
         self.gridLayout_35.setObjectName("gridLayout_35")
-        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_35.addItem(spacerItem7, 1, 0, 1, 1)
-        spacerItem8 = QtWidgets.QSpacerItem(35, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_35.addItem(spacerItem8, 1, 7, 1, 1)
+        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_35.addItem(spacerItem8, 1, 0, 1, 1)
         spacerItem9 = QtWidgets.QSpacerItem(35, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_35.addItem(spacerItem9, 1, 4, 1, 1)
+        self.gridLayout_35.addItem(spacerItem9, 1, 7, 1, 1)
+        spacerItem10 = QtWidgets.QSpacerItem(35, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_35.addItem(spacerItem10, 1, 4, 1, 1)
         self.sb_background_color_a = QtWidgets.QSpinBox(self.fr_background_color)
         self.sb_background_color_a.setMinimumSize(QtCore.QSize(65, 24))
         self.sb_background_color_a.setMaximumSize(QtCore.QSize(60, 24))
@@ -496,8 +518,8 @@ class Ui_MainWindow(object):
         self.sb_background_color_a.setProperty("value", 0)
         self.sb_background_color_a.setObjectName("sb_background_color_a")
         self.gridLayout_35.addWidget(self.sb_background_color_a, 1, 8, 1, 1)
-        spacerItem10 = QtWidgets.QSpacerItem(35, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_35.addItem(spacerItem10, 1, 2, 1, 1)
+        spacerItem11 = QtWidgets.QSpacerItem(35, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_35.addItem(spacerItem11, 1, 2, 1, 1)
         self.sb_background_color_g = QtWidgets.QSpinBox(self.fr_background_color)
         self.sb_background_color_g.setMinimumSize(QtCore.QSize(65, 24))
         self.sb_background_color_g.setMaximumSize(QtCore.QSize(60, 24))
@@ -552,8 +574,8 @@ class Ui_MainWindow(object):
         self.sb_background_color_r.setProperty("value", 0)
         self.sb_background_color_r.setObjectName("sb_background_color_r")
         self.gridLayout_35.addWidget(self.sb_background_color_r, 1, 1, 1, 1)
-        spacerItem11 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_35.addItem(spacerItem11, 1, 9, 1, 1)
+        spacerItem12 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_35.addItem(spacerItem12, 1, 9, 1, 1)
         self.gridLayout_39.addWidget(self.fr_background_color, 0, 0, 1, 1)
         self.gridLayout.addWidget(self.groupBox_5, 4, 0, 1, 2)
         self.groupBox_2 = QtWidgets.QGroupBox(self.tab_mosaic)
@@ -584,8 +606,8 @@ class Ui_MainWindow(object):
         self.gridLayout_24.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_24.setSpacing(0)
         self.gridLayout_24.setObjectName("gridLayout_24")
-        spacerItem12 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_24.addItem(spacerItem12, 0, 2, 1, 1)
+        spacerItem13 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_24.addItem(spacerItem13, 0, 2, 1, 1)
         self.btn_frames_path = QtWidgets.QPushButton(self.fr_frames_path)
         self.btn_frames_path.setEnabled(True)
         self.btn_frames_path.setMinimumSize(QtCore.QSize(100, 21))
@@ -604,40 +626,65 @@ class Ui_MainWindow(object):
         self.btn_frames_path.setObjectName("btn_frames_path")
         self.gridLayout_24.addWidget(self.btn_frames_path, 0, 0, 1, 1)
         self.gridLayout_34.addWidget(self.fr_frames_path, 0, 0, 1, 1)
-        self.gridLayout.addWidget(self.groupBox_2, 1, 0, 1, 2)
-        spacerItem13 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.gridLayout.addItem(spacerItem13, 0, 1, 1, 1)
-        self.l_mosaic_tab_warning = QtWidgets.QLabel(self.tab_mosaic)
-        self.l_mosaic_tab_warning.setMinimumSize(QtCore.QSize(320, 80))
-        self.l_mosaic_tab_warning.setMaximumSize(QtCore.QSize(320, 80))
-        self.l_mosaic_tab_warning.setStyleSheet("QLabel{\n"
-"color: rgb(226, 113, 113);\n"
-"background-color: rgb(89, 90, 90);\n"
+        self.gridLayout.addWidget(self.groupBox_2, 0, 0, 1, 2)
+        self.groupBox_10 = QtWidgets.QGroupBox(self.tab_mosaic)
+        self.groupBox_10.setMinimumSize(QtCore.QSize(320, 61))
+        self.groupBox_10.setMaximumSize(QtCore.QSize(320, 61))
+        self.groupBox_10.setStyleSheet("QGroupBox {\n"
+"    border: 1px solid gray;\n"
+"    border-radius: 10px;\n"
+"    margin-top: 1ex; /* leave space at the top for the title */\n"
+"}\n"
+"QGroupBox::title {\n"
+"    color: rgb(203, 203, 203);\n"
+"    subcontrol-origin: margin;\n"
+"    subcontrol-position: top center; /* position at the top center */\n"
+"    padding: 0 3px;\n"
+"}\n"
+"")
+        self.groupBox_10.setObjectName("groupBox_10")
+        self.gridLayout_40 = QtWidgets.QGridLayout(self.groupBox_10)
+        self.gridLayout_40.setObjectName("gridLayout_40")
+        self.fr_sb_increment = QtWidgets.QFrame(self.groupBox_10)
+        self.fr_sb_increment.setMinimumSize(QtCore.QSize(300, 30))
+        self.fr_sb_increment.setMaximumSize(QtCore.QSize(300, 30))
+        self.fr_sb_increment.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.fr_sb_increment.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.fr_sb_increment.setObjectName("fr_sb_increment")
+        self.gridLayout_28 = QtWidgets.QGridLayout(self.fr_sb_increment)
+        self.gridLayout_28.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout_28.setSpacing(0)
+        self.gridLayout_28.setObjectName("gridLayout_28")
+        self.sb_increment = QtWidgets.QSpinBox(self.fr_sb_increment)
+        self.sb_increment.setMinimumSize(QtCore.QSize(281, 24))
+        self.sb_increment.setMaximumSize(QtCore.QSize(281, 24))
+        self.sb_increment.setStyleSheet("QSpinBox{\n"
+"color: rgb(203, 203, 203);\n"
+"background-color: rgb(117, 117, 117);\n"
 "border-radius: 8px;\n"
 "padding: 5px;\n"
-"border: 1px solid gray;\n"
 "}")
-        self.l_mosaic_tab_warning.setTextFormat(QtCore.Qt.AutoText)
-        self.l_mosaic_tab_warning.setScaledContents(False)
-        self.l_mosaic_tab_warning.setAlignment(QtCore.Qt.AlignCenter)
-        self.l_mosaic_tab_warning.setWordWrap(True)
-        self.l_mosaic_tab_warning.setObjectName("l_mosaic_tab_warning")
-        self.gridLayout.addWidget(self.l_mosaic_tab_warning, 6, 0, 1, 2)
-        spacerItem14 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout.addItem(spacerItem14, 7, 0, 1, 2)
-        spacerItem15 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.gridLayout.addItem(spacerItem15, 5, 0, 1, 1)
+        self.sb_increment.setWrapping(False)
+        self.sb_increment.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
+        self.sb_increment.setCorrectionMode(QtWidgets.QAbstractSpinBox.CorrectToNearestValue)
+        self.sb_increment.setMinimum(1)
+        self.sb_increment.setMaximum(100)
+        self.sb_increment.setProperty("value", 1)
+        self.sb_increment.setObjectName("sb_increment")
+        self.gridLayout_28.addWidget(self.sb_increment, 0, 0, 1, 1)
+        self.gridLayout_40.addWidget(self.fr_sb_increment, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.groupBox_10, 3, 0, 1, 1)
         self.tabWidget.addTab(self.tab_mosaic, "")
         self.tab_output = QtWidgets.QWidget()
         self.tab_output.setObjectName("tab_output")
         self.gridLayout_43 = QtWidgets.QGridLayout(self.tab_output)
         self.gridLayout_43.setObjectName("gridLayout_43")
+        spacerItem14 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout_43.addItem(spacerItem14, 0, 0, 1, 1)
+        spacerItem15 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_43.addItem(spacerItem15, 7, 0, 1, 1)
         spacerItem16 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.gridLayout_43.addItem(spacerItem16, 0, 0, 1, 1)
-        spacerItem17 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_43.addItem(spacerItem17, 7, 0, 1, 1)
-        spacerItem18 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.gridLayout_43.addItem(spacerItem18, 5, 0, 1, 1)
+        self.gridLayout_43.addItem(spacerItem16, 5, 0, 1, 1)
         self.groupBox_8 = QtWidgets.QGroupBox(self.tab_output)
         self.groupBox_8.setMinimumSize(QtCore.QSize(320, 70))
         self.groupBox_8.setMaximumSize(QtCore.QSize(320, 70))
@@ -679,8 +726,8 @@ class Ui_MainWindow(object):
         self.fld_filename.setAlignment(QtCore.Qt.AlignCenter)
         self.fld_filename.setObjectName("fld_filename")
         self.gridLayout_19.addWidget(self.fld_filename, 0, 1, 1, 1)
-        spacerItem19 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_19.addItem(spacerItem19, 0, 2, 1, 1)
+        spacerItem17 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_19.addItem(spacerItem17, 0, 2, 1, 1)
         self.cb_image_format = QtWidgets.QComboBox(self.fr_image_format)
         self.cb_image_format.setMinimumSize(QtCore.QSize(70, 22))
         self.cb_image_format.setMaximumSize(QtCore.QSize(70, 22))
@@ -718,10 +765,10 @@ class Ui_MainWindow(object):
         self.cb_image_format.addItem("")
         self.cb_image_format.addItem("")
         self.gridLayout_19.addWidget(self.cb_image_format, 0, 3, 1, 1)
-        spacerItem20 = QtWidgets.QSpacerItem(120, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_19.addItem(spacerItem20, 0, 0, 1, 1)
-        spacerItem21 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_19.addItem(spacerItem21, 0, 4, 1, 1)
+        spacerItem18 = QtWidgets.QSpacerItem(120, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_19.addItem(spacerItem18, 0, 0, 1, 1)
+        spacerItem19 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_19.addItem(spacerItem19, 0, 4, 1, 1)
         self.gridLayout_42.addWidget(self.fr_image_format, 0, 0, 1, 1)
         self.gridLayout_43.addWidget(self.groupBox_8, 4, 0, 1, 1)
         self.groupBox_6 = QtWidgets.QGroupBox(self.tab_output)
@@ -851,8 +898,8 @@ class Ui_MainWindow(object):
         self.cb_valid_frame_range.addItem("")
         self.cb_valid_frame_range.addItem("")
         self.gridLayout_33.addWidget(self.cb_valid_frame_range, 0, 0, 1, 1)
-        spacerItem22 = QtWidgets.QSpacerItem(107, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_33.addItem(spacerItem22, 0, 1, 1, 1)
+        spacerItem20 = QtWidgets.QSpacerItem(107, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_33.addItem(spacerItem20, 0, 1, 1, 1)
         self.gridLayout_32.addWidget(self.fr_valid_frame_range, 0, 0, 1, 1)
         self.fr_start_end_inc = QtWidgets.QFrame(self.groupBox_7)
         self.fr_start_end_inc.setMinimumSize(QtCore.QSize(305, 20))
@@ -864,8 +911,8 @@ class Ui_MainWindow(object):
         self.gridLayout_21.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_21.setSpacing(0)
         self.gridLayout_21.setObjectName("gridLayout_21")
-        spacerItem23 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_21.addItem(spacerItem23, 2, 4, 1, 1)
+        spacerItem21 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_21.addItem(spacerItem21, 2, 4, 1, 1)
         self.sb_start_value = QtWidgets.QSpinBox(self.fr_start_end_inc)
         self.sb_start_value.setEnabled(False)
         self.sb_start_value.setMinimumSize(QtCore.QSize(60, 24))
@@ -948,14 +995,14 @@ class Ui_MainWindow(object):
         self.sb_end_value.setProperty("value", 1)
         self.sb_end_value.setObjectName("sb_end_value")
         self.gridLayout_21.addWidget(self.sb_end_value, 2, 5, 1, 1)
+        spacerItem22 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_21.addItem(spacerItem22, 2, 6, 1, 1)
+        spacerItem23 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_21.addItem(spacerItem23, 2, 8, 1, 1)
         spacerItem24 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_21.addItem(spacerItem24, 2, 6, 1, 1)
+        self.gridLayout_21.addItem(spacerItem24, 2, 0, 1, 1)
         spacerItem25 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_21.addItem(spacerItem25, 2, 8, 1, 1)
-        spacerItem26 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_21.addItem(spacerItem26, 2, 0, 1, 1)
-        spacerItem27 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_21.addItem(spacerItem27, 2, 2, 1, 1)
+        self.gridLayout_21.addItem(spacerItem25, 2, 2, 1, 1)
         self.gridLayout_32.addWidget(self.fr_start_end_inc, 1, 0, 1, 1)
         self.gridLayout_43.addWidget(self.groupBox_7, 3, 0, 1, 1)
         self.fr_save_butons = QtWidgets.QFrame(self.tab_output)
@@ -985,8 +1032,8 @@ class Ui_MainWindow(object):
 "}")
         self.btn_save.setObjectName("btn_save")
         self.gridLayout_17.addWidget(self.btn_save, 0, 2, 1, 1)
-        spacerItem28 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_17.addItem(spacerItem28, 0, 1, 1, 1)
+        spacerItem26 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_17.addItem(spacerItem26, 0, 1, 1, 1)
         self.gridLayout_43.addWidget(self.fr_save_butons, 6, 0, 1, 1)
         self.tabWidget.addTab(self.tab_output, "")
         self.gridLayout_18.addWidget(self.tabWidget, 1, 0, 1, 1)
@@ -996,7 +1043,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(1)
         self.cb_valid_frame_range.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -1012,8 +1059,9 @@ class Ui_MainWindow(object):
         self.fld_image_path.setPlaceholderText(_translate("MainWindow", "Image Path"))
         self.btn_image_path.setText(_translate("MainWindow", "..."))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_frames), _translate("MainWindow", "Frames"))
-        self.groupBox_4.setTitle(_translate("MainWindow", "Max Images"))
         self.groupBox_3.setTitle(_translate("MainWindow", "Images per line"))
+        self.groupBox_4.setTitle(_translate("MainWindow", "Max Images"))
+        self.l_mosaic_tab_warning.setText(_translate("MainWindow", "If you want get SubUV or Flipbook from frames list, use this tab"))
         self.groupBox_5.setTitle(_translate("MainWindow", "Background color"))
         self.sb_background_color_a.setPrefix(_translate("MainWindow", " A:  "))
         self.sb_background_color_g.setPrefix(_translate("MainWindow", " G:  "))
@@ -1021,7 +1069,7 @@ class Ui_MainWindow(object):
         self.sb_background_color_r.setPrefix(_translate("MainWindow", " R:  "))
         self.groupBox_2.setTitle(_translate("MainWindow", "Select frames"))
         self.btn_frames_path.setText(_translate("MainWindow", "Select files"))
-        self.l_mosaic_tab_warning.setText(_translate("MainWindow", "If you want get SubUV or Flipbook from frames list, use this tab"))
+        self.groupBox_10.setTitle(_translate("MainWindow", "Increment"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_mosaic), _translate("MainWindow", "Mosaic"))
         self.groupBox_8.setTitle(_translate("MainWindow", "Image name and format"))
         self.fld_filename.setPlaceholderText(_translate("MainWindow", "File name"))
@@ -1039,14 +1087,4 @@ class Ui_MainWindow(object):
         self.l_start_end_inc.setText(_translate("MainWindow", "Start/End/Incr"))
         self.btn_save.setText(_translate("MainWindow", "Render"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_output), _translate("MainWindow", "Output"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
 

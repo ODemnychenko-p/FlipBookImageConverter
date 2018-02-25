@@ -6,6 +6,7 @@ class Frames:
         self.outMosaic = None
 
     def __del__(self):
+        """Clear array"""
         self._all.clear()
 
     def __len__(self):
@@ -28,18 +29,15 @@ class Frames:
 
     @property
     def framesList(self):
-        """Get all created frames"""
         return self._all
 
     @framesList.setter
     def framesList(self, value):
-        """Add frames into a list"""
         self._all.append(value)
         print("Frame({0}): {1} was added!".format(len(self._all), value))
 
     @property
     def framesCount(self):
-        """Get frames count, vertical and horizontal"""
         return self._count
 
     @framesCount.setter
