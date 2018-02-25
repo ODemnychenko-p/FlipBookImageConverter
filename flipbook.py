@@ -11,12 +11,31 @@ from frame import Frames
 if os.name == 'posix':
     from UI import flipbook_UI_IOS as UI
 elif os.name == 'nt':
-    from UI import flipbook_UI_WINDOWS_ver3 as UI
+    from UI import flipbook_UI_WINDOWS as UI
 
 class Flipbook(UI.Ui_MainWindow, QMainWindow):
     def __init__(self):
         super(Flipbook, self).__init__()
         self.setupUi(self)
+
+        """-----------------For mac-------------------"""
+        if os.name == 'posix':
+            self.fld_image_path.setAttribute(Qt.WA_MacShowFocusRect, 0)
+            self.fld_filename.setAttribute(Qt.WA_MacShowFocusRect, 0)
+            self.fld_out_path.setAttribute(Qt.WA_MacShowFocusRect, 0)
+            self.sb_images_per_line.setAttribute(Qt.WA_MacShowFocusRect, 0)
+            self.sb_increment.setAttribute(Qt.WA_MacShowFocusRect, 0)
+            self.sb_vertical_line.setAttribute(Qt.WA_MacShowFocusRect, 0)
+            self.sb_horizontal_line.setAttribute(Qt.WA_MacShowFocusRect, 0)
+            self.sb_background_color_a.setAttribute(Qt.WA_MacShowFocusRect, 0)
+            self.sb_background_color_b.setAttribute(Qt.WA_MacShowFocusRect, 0)
+            self.sb_background_color_g.setAttribute(Qt.WA_MacShowFocusRect, 0)
+            self.sb_background_color_r.setAttribute(Qt.WA_MacShowFocusRect, 0)
+            self.sb_end_value.setAttribute(Qt.WA_MacShowFocusRect, 0)
+            self.sb_start_value.setAttribute(Qt.WA_MacShowFocusRect, 0)
+            self.sb_inc_value.setAttribute(Qt.WA_MacShowFocusRect, 0)
+            self.sb_max_images.setAttribute(Qt.WA_MacShowFocusRect, 0)
+        """-------------------------------------------"""
 
         self.img = None
         self.backup_img = None
@@ -285,12 +304,9 @@ def divide_image(fr, img):
         left = 0
         right = fr.frameSize[0]
 
-def draw_text(img, txt, font_size = 12):
+def draw_text(img, txt):
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype('arial.ttf', font_size)
-    # txt_size = draw.textsize(txt)
-    # draw.rectangle(((5, 5), txt_size[0] + 15, txt_size[1]), fill=(50, 50, 50, 100))
-    draw.text((12, 12), txt, font=font, fill=(244, 168, 6, 255))
+    draw.text((12, 12), txt, font=ImageFont.load_default(), fill=(244, 168, 6, 255))
 
 def update_preview(img, txt):
     background = Image.new('RGBA', (512, 512), (255, 255, 255, 0))
