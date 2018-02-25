@@ -7,3 +7,6 @@ flipbook/__pycache__/
 /for test.py
 /flipbook
 test.py
+flipbook.spec
+/dist
+/build
