@@ -332,6 +332,11 @@ def update_preview(img, txt):
 
 if __name__ == "__main__":
     qapp = QApplication(sys.argv)
+    if os.name == 'posix':
+        path = "/Users/aleksandr/PycharmProjects/FlipBookImageConverter/logo/icon.png"
+    elif os.name == 'nt':
+        path = ""
+    qapp.setWindowIcon(QIcon(path))
     flipbook = Flipbook()
     flipbook.show()
     qapp.exec_()
