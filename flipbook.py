@@ -17,7 +17,7 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
     def __init__(self):
         super(Flipbook, self).__init__()
         self.setupUi(self)
-
+        self.l_logo.setPixmap(QPixmap(os.path.abspath("{0}/logo/logo2.png".format(os.path.curdir))))
         """-----------------For mac-------------------"""
         if os.name == 'posix':
             self.fld_image_path.setAttribute(Qt.WA_MacShowFocusRect, 0)
@@ -207,7 +207,7 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
         messagebox = QMessageBox()
         messagebox.setIcon(QMessageBox.Question)
         icon = QIcon()
-        icon.addPixmap(QPixmap("D:\Demnichenko\Programming\FlipBookImageConverter\logo\icon.png"), QIcon.Normal, QIcon.Off)
+        icon.addPixmap(QPixmap(os.path.abspath("{0}/logo/icon.png".format(os.path.curdir))), QIcon.Normal, QIcon.Off)
         messagebox.setWindowIcon(icon)
         messagebox.setWindowTitle('Confirm Exit')
         messagebox.setText('Are you sure, you want to quit?')
@@ -332,12 +332,7 @@ def update_preview(img, txt):
 
 if __name__ == "__main__":
     qapp = QApplication(sys.argv)
-    if os.name == 'posix':
-        path = "/Users/aleksandr/PycharmProjects/FlipBookImageConverter/logo/icon.png"
-    elif os.name == 'nt':
-        pass
-        path = "D:/Demnichenko/Programming/FlipBookImageConverter/logo/icon.png"
-    qapp.setWindowIcon(QIcon(path))
+    qapp.setWindowIcon(QIcon(os.path.abspath("{0}/logo/icon.png".format(os.path.curdir))))
     flipbook = Flipbook()
     flipbook.show()
     qapp.exec_()
