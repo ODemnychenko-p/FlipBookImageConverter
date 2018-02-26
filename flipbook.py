@@ -335,7 +335,8 @@ if __name__ == "__main__":
     if os.name == 'posix':
         path = "/Users/aleksandr/PycharmProjects/FlipBookImageConverter/logo/icon.png"
     elif os.name == 'nt':
-        path = ""
+        pass
+        path = "D:/Demnichenko/Programming/FlipBookImageConverter/logo/icon.png"
     qapp.setWindowIcon(QIcon(path))
     flipbook = Flipbook()
     flipbook.show()
