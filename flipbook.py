@@ -1,6 +1,7 @@
 import sys
 import os
 import math
+import resource
 from PIL import Image, ImageDraw, ImageFont
 from PyQt5.QtWidgets import*
 from PyQt5.QtGui import*
@@ -17,7 +18,7 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
     def __init__(self):
         super(Flipbook, self).__init__()
         self.setupUi(self)
-        self.l_logo.setPixmap(QPixmap(os.path.abspath("{0}/logo/logo2.png".format(os.path.curdir))))
+        self.l_logo.setPixmap(QPixmap(":logo/logo2.png"))
         """-----------------For mac-------------------"""
         if os.name == 'posix':
             self.fld_image_path.setAttribute(Qt.WA_MacShowFocusRect, 0)
@@ -207,7 +208,7 @@ class Flipbook(UI.Ui_MainWindow, QMainWindow):
         messagebox = QMessageBox()
         messagebox.setIcon(QMessageBox.Question)
         icon = QIcon()
-        icon.addPixmap(QPixmap(os.path.abspath("{0}/logo/icon.png".format(os.path.curdir))), QIcon.Normal, QIcon.Off)
+        icon.addPixmap(QPixmap(":/logo/icon.png"), QIcon.Normal, QIcon.Off)
         messagebox.setWindowIcon(icon)
         messagebox.setWindowTitle('Confirm Exit')
         messagebox.setText('Are you sure, you want to quit?')
@@ -259,26 +260,15 @@ def size_compensation(img, v_count, h_count):
     return img.resize((w, h), Image.ANTIALIAS)
 
 def create_mosaic(fr, img_per_line, max_img, incr, color):
+
     frame_index_w = 0
     frame_index_h = 0
     w, h = fr[0].size
-    kh = math.ceil(math.ceil(max_img / incr) / img_per_line)
     max_img_temp = math.ceil(max_img / incr)
-    if max_img_temp < img_per_line:
-        kw = math.ceil(max_img / incr)
-
-    else:
-        kw = img_per_line
-
-    # label_id = Image.new('RGBA', (w * kw, h * kh), (0, 0, 0, 0))
-
+    kh = math.ceil(max_img_temp / img_per_line)
+    kw = max_img_temp if max_img_temp < img_per_line else img_per_line
     background_img = Image.new('RGBA', (w * kw, h * kh), color)
     for i in range(0, max_img, incr):
-
-        # fr_empty = Image.new('RGBA', fr[0].size, (0, 0, 0, 0))
-        # draw_text(fr_empty, str(i), 50)
-        # label_id.paste(fr_empty, (frame_index_w * w, frame_index_h * h))
-
         background_img.paste(fr[i], (frame_index_w * w, frame_index_h * h))
         frame_index_w += 1
         if frame_index_w == kw:
@@ -286,7 +276,6 @@ def create_mosaic(fr, img_per_line, max_img, incr, color):
             frame_index_w = 0
     fr.outMosaic = background_img
     return background_img
-    # return Image.alpha_composite(background_img, label_id)
 
 def divide_image(fr, img):
     left = 0
@@ -332,7 +321,7 @@ def update_preview(img, txt):
 
 if __name__ == "__main__":
     qapp = QApplication(sys.argv)
-    qapp.setWindowIcon(QIcon(os.path.abspath("{0}/logo/icon.png".format(os.path.curdir))))
+    qapp.setWindowIcon(QIcon(":/logo/icon.png"))
     flipbook = Flipbook()
     flipbook.show()
     qapp.exec_()
