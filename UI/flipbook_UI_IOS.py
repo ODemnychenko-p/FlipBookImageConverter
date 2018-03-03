@@ -41,7 +41,6 @@ class Ui_MainWindow(object):
         self.l_logo.setMinimumSize(QtCore.QSize(320, 121))
         self.l_logo.setMaximumSize(QtCore.QSize(320, 110))
         self.l_logo.setText("")
-        self.l_logo.setPixmap(QtGui.QPixmap("/Users/aleksandr/PycharmProjects/FlipBookImageConverter/logo/logo2.png"))
         self.l_logo.setScaledContents(True)
         self.l_logo.setObjectName("l_logo")
         self.gridLayout_25.addWidget(self.l_logo, 0, 0, 1, 1)
