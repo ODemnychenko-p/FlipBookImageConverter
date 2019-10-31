@@ -3,7 +3,7 @@ future==0.16.0
 macholib==1.9
 olefile==0.44
 pefile==2017.11.5
-Pillow==4.1.0
+Pillow==6.2.0
 PyInstaller==3.3.1
 PyQt5==5.8.2
 sip==4.19.7
